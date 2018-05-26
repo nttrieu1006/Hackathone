@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
-
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-content',
@@ -9,6 +9,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 })
 export class ContentComponent implements OnInit {
 
+ 
   @ViewChild('closeBtn') closeBtn: ElementRef;
     public firebase;
     public penddings;
@@ -21,19 +22,14 @@ export class ContentComponent implements OnInit {
   ngOnInit() {
     this.getTask().subscribe(res => {
       this.penddings = res;
-      console.log(res)
   });
   }
   getTask(){
     return this.angularFire.list('/pendding').valueChanges();
   }
-  delete(){
-    return this.angularFire.list(`/pendding`).remove();
-  }
-  onConfirm(key : number){
+
+  onConfirm(key){
     this.angularFire.list('/post').push(this.penddings[key]);
-    this.delete().then(data =>{
-      console.log(data);
-    })
+    this.angularFire.list(`/pendding/${key+1}`).remove();
   }
 }
