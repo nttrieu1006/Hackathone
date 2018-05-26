@@ -16,14 +16,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of posts; let i = index">
+          <tr *ngFor="let item of penddings; let i = index">
             <td>{{i+1}}</td>
-            <td>{{item.desire}}</td>
-            <td>{{item.location}}</td>
-            <td>{{item.tags}}</td>
-            <td>{{item.user}}</td>
+            <td>{{item.desire? 'Thỉnh nguyện' : 'Bình thường'}}</td>
+            <td>{{item.locationID}}</td>
+            <td>#{{item.tags}}</td>
+            <td>{{item.user.name}}</td>
             <td>
-              {{item.content |slice:0:50}}+...              
+              {{item.contents.text |slice:0:50 }} ...              
               <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" style="float: right;">More</button>
               <!-- Modal -->
               <div class="modal fade" id="myModal" role="dialog">
@@ -34,7 +34,7 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                       </div>
                       <div class="modal-body">
-                        <p>{{item.content}}</p>
+                        <p>{{item.contents.text |json}}</p>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -43,7 +43,9 @@
                   </div>
                 </div>            
             </td>
-            <td></td>            
+            <td>
+             <button type="button" class="btn btn-success" (click)="onConfirm(i)">Confirm</button>              
+            </td>            
           </tr>
         </tbody>
       </table>      

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { AngularFireDatabase } from 'angularfire2/database';
+
 
 @Component({
   selector: 'app-content',
@@ -7,35 +9,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContentComponent implements OnInit {
 
-  posts :object[] = [
-    {
-      desire:'true',
-      location: 30,
-      tags:['abc','xyz'],
-      user:1,
-      content:`The "Trigger" part:
+  @ViewChild('closeBtn') closeBtn: ElementRef;
+    public firebase;
+    public penddings;
 
-      To trigger the modal window, you need to use a button or a link.
-      
-      Then include the two data-* attributes:
-      
-      data-toggle="modal" opens the modal window
-      data-target="#myModal" points to the id of the modal
-      The "Modal" part:
-      
-      The parent <div> of the modal must have an ID that is the same as the value of the data-target attribute used to trigger the modal ("myModal").
-      
-      The .modal class identifies the content of <div> as a modal and brings focus to it.
-      
-      The .fade class adds a transition effect which fades the modal in and out. Remove this class if you do not want this effect.
-      
-      The attribute role="dialog" improves accessibility for people using screen readers.
-      
-      The .modal-dialog class sets the proper width and margin of the modal.`,
+    constructor(private angularFire: AngularFireDatabase) {
+        this.penddings = null;
+        this.firebase = this.angularFire.list('/pendding');
     }
-  ];
-  constructor() { }
 
   ngOnInit() {
+    this.getTask().subscribe(res => {
+      this.penddings = res;
+      console.log(res)
+  });
+  }
+  getTask(){
+    return this.angularFire.list('/pendding').valueChanges();
+  }
+  delete(){
+    return this.angularFire.list(`/pendding`).remove();
+  }
+  onConfirm(key : number){
+    this.angularFire.list('/post').push(this.penddings[key]);
+    this.delete().then(data =>{
+      console.log(data);
+    })
   }
 }
