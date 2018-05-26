@@ -1,0 +1,52 @@
+:host{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(139,195,76);
+    min-height: 98vh;
+    .info{
+        img{
+            width: 70%;
+            border-radius:90px;
+            margin-left: 15%;
+            margin-top: 10%
+        };
+        h2,h4{
+            text-align: center;
+            color: white;
+        }
+    };
+    .menu{
+        ul {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20%;            
+            li{               
+                list-style: none;
+                margin-top:15%;
+                i,a{
+                    text-align: center;
+                    color:white;
+                    font-size: large;
+                }
+                
+            }
+            li:hover{
+                i,a{
+                    color:rgba($color: #ece9e9, $alpha: 0.4);
+                    text-decoration: none
+                }
+            }
+        }
+    }
+    .icon{
+        margin-left:20%; 
+        i{
+            font-size: x-large;
+            margin-left: 10%;
+            margin-top: 60px
+        }
+        i:hover{
+            color:rgba($color: #ece9e9, $alpha: 0.4);
+        }
+    }
+}
