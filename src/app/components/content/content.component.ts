@@ -13,8 +13,7 @@ export class ContentComponent implements OnInit {
   @ViewChild('closeBtn') closeBtn: ElementRef;
     public firebase;
     public penddings;
-    public penddingKey;
-
+    public penddingKey : any[] =[];
     constructor(private angularFire: AngularFireDatabase) {
         this.penddings = null;
         this.firebase = this.angularFire.list('/pendding');
@@ -22,21 +21,20 @@ export class ContentComponent implements OnInit {
   ngOnInit() {
     this.getTask().subscribe(res => {
       this.penddings = res;
-  });
-  this.angularFire.database.ref('/pendding/').once('value', res=>{
-    for (let key in res.val()){
-      console.log('key',key)
-      // this.penddingKey.push(key.toString());
-    }
-  });
+    });
+    this.angularFire.database.ref('/pendding').once('value', res=>{ 
+      for(let key in res.val()){
+        this.penddingKey.push(key);
+      }
+    });
   }
   getTask(){
-    return this.angularFire.list('/pendding').valueChanges();
+    return this.penddings =  this.angularFire.list('/pendding').valueChanges();
   }
 
   onConfirm(key){
-    console.log(key)
-    // this.angularFire.list('/post').push(this.penddings[key]);
-    // this.angularFire.database.ref(`/pendding/${key}`).remove();
+    console.log(this.penddingKey[key]);
+    this.angularFire.list('/post').push(this.penddings[key]).then(()=>{this.angularFire.database.ref(`/pendding/${this.penddingKey[key]}`).remove();   });
+    
   }
 }
