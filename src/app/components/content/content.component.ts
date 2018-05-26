@@ -13,15 +13,21 @@ export class ContentComponent implements OnInit {
   @ViewChild('closeBtn') closeBtn: ElementRef;
     public firebase;
     public penddings;
+    public penddingKey;
 
     constructor(private angularFire: AngularFireDatabase) {
         this.penddings = null;
         this.firebase = this.angularFire.list('/pendding');
     }
-
   ngOnInit() {
     this.getTask().subscribe(res => {
       this.penddings = res;
+  });
+  this.angularFire.database.ref('/pendding/').once('value', res=>{
+    for (let key in res.val()){
+      console.log('key',key)
+      // this.penddingKey.push(key.toString());
+    }
   });
   }
   getTask(){
@@ -29,7 +35,8 @@ export class ContentComponent implements OnInit {
   }
 
   onConfirm(key){
-    this.angularFire.list('/post').push(this.penddings[key]);
-    this.angularFire.list(`/pendding/${key+1}`).remove();
+    console.log(key)
+    // this.angularFire.list('/post').push(this.penddings[key]);
+    // this.angularFire.database.ref(`/pendding/${key}`).remove();
   }
 }

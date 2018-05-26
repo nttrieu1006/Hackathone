@@ -16,7 +16,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of penddings; let i = index">
+          <tr *ngFor="let item of penddings; let i = index ; let key of pendding">
             <td>{{i+1}}</td>
             <td>{{item.desire? 'Thỉnh nguyện' : 'Bình thường'}}</td>
             <td>{{item.locationID}}</td>
@@ -44,7 +44,7 @@
                 </div>            
             </td>
             <td>
-             <button type="button" class="btn btn-success" (click)="onConfirm(i)">Confirm</button>              
+             <button type="button" class="btn btn-success" (click)="onConfirm(key)">Confirm</button>              
             </td>            
           </tr>
         </tbody>
