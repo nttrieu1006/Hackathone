@@ -1,9 +1,9 @@
 <div class="panel panel-danger">
     <div class="panel-heading">
-      <h3 class="panel-title">Quản lý thình nguyện thư</h3>
+      <h3 class="panel-title">Quản lý thỉnh nguyện thư</h3>
     </div>
     <div class="panel-body">      
-      <table class="table table-bordered table-hover">
+      <table class="table table-bordered table-hover" *ngIf="penddings.length > 0">
         <thead>
           <tr>
             <th>STT</th>
@@ -34,7 +34,7 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                       </div>
                       <div class="modal-body">
-                        <p>{{item.contents.text |json}}</p>
+                        <p>{{item.contents.text}}</p>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -44,11 +44,13 @@
                 </div>            
             </td>
             <td>
-             <button type="button" class="btn btn-success" (click)="onConfirm(i)">Confirm</button>              
+             <button type="button" class="btn btn-success" (click)="onConfirm(i)">Confirm</button>   
+             <button type="button" class="btn btn-danger" (click)="onDelete(i)">Delete</button>                                      
             </td>            
           </tr>
         </tbody>
-      </table>      
+      </table>
+      <h2 *ngIf="penddings.length ==0" style="text-align: center"> Không có thỉnh nguyện thư cần duyệt</h2>
     </div>
 </div>
 

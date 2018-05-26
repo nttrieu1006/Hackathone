@@ -22,7 +22,11 @@ export class ContentComponent implements OnInit {
     this.getTask().subscribe(res => {
       this.penddings = res;
     });
-    this.angularFire.database.ref('/pendding').once('value', res=>{ 
+    this.getKey();
+  }
+  getKey(){
+    return this.angularFire.database.ref('/pendding').once('value', res=>{
+      this.penddingKey = [];
       for(let key in res.val()){
         this.penddingKey.push(key);
       }
@@ -32,9 +36,15 @@ export class ContentComponent implements OnInit {
     return this.penddings =  this.angularFire.list('/pendding').valueChanges();
   }
 
-  onConfirm(key){
-    console.log(this.penddingKey[key]);
-    this.angularFire.list('/post').push(this.penddings[key]).then(()=>{this.angularFire.database.ref(`/pendding/${this.penddingKey[key]}`).remove();   });
-    
+  onConfirm(key :string){   
+    this.angularFire.list('/post').push(this.penddings[key]);    
+    this.angularFire.database.ref(`/pendding/${this.penddingKey[key]}`).remove();
+    this.getKey();
+    alert("Success"); 
+  }
+  onDelete(key){
+    this.angularFire.database.ref(`/pendding/${this.penddingKey[key]}`).remove();
+    this.getKey();
+    alert("Success"); 
   }
 }
